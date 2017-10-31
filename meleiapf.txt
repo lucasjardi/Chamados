@@ -1,0 +1,7 @@
+scene builder 8
+eclipse oxygen
+java 8
+32 bits
+hsqldb
+
+no eclipse: Help->install software

@@ -1,0 +1,19 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.standardColor{
+	-fx-background-color: #34495E;
+}
+
+.white{
+	-fx-background-color: white;
+}
+
+.paneLogin{
+	-fx-background-color: white;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);
+}
+
+.button{
+	-fx-background-color: #34495E;
+	-fx-text-fill: white;
+}

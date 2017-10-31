@@ -1,0 +1,21 @@
+A fazer
+
+- Abrir novo Stage no ControllerLogin
+- Tabela EsperaChamado (Diana colocou exemplo)
+- verificar permissao. se for admin abrir tela de espera
+- Login com twitter
+- Verificar campos (Previsao de erros)
+
+Fazendo
+
+- Implementar resto dos metodos nos controllers e Fachada
+
+Feito
+
+- Mudança banco pra mysql por causa do MD5 (Nao adiantou nada)
+- Login e telaCriarChamado no scene builder
+- Fazer uma classezinha session pra gerenciar login
+
+Aux
+
+202cb962ac59075b964b07152d234b70
