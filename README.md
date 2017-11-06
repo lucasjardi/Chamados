@@ -1,6 +1,6 @@
 # Chamados
 
-scene builder 8
-eclipse
-java 8
-mysql
+install scene builder 8<br>
+install eclipse (javafx)<br>
+install java 8<br>
+install mysql
