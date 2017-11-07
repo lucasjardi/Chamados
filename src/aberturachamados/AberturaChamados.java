@@ -11,7 +11,7 @@ public class AberturaChamados extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(Config.PATH_LOGIN));
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(Config.PATH_ADMIN));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource(Config.PATH_CSS).toExternalForm());
 			primaryStage.setScene(scene);

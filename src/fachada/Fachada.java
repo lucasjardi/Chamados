@@ -68,4 +68,12 @@ public class Fachada {
     public List<Local> listAllLocals(){
     	return this.localControl.listAllLocals();
     }
+    
+    public List<Chamados> listChamadosWaiting(){
+    	return this.chamadoControl.waitList();
+    }
+    
+    public void changeStatus(Chamados chamado) {
+    	this.chamadoControl.changeStatus(chamado);
+    }
 }

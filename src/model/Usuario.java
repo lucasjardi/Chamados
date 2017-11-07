@@ -101,9 +101,14 @@ public class Usuario {
 
 	   
 
+//    @Override
+//    public String toString() {
+//        return "Usuario(" + "nome=" + nome + ", nick=" + nick + ')';
+//    }
+    
     @Override
     public String toString() {
-        return "Usuario(" + "nome=" + nome + ", nick=" + nick + ')';
+        return nome;
     }
     
     

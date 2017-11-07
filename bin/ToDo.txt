@@ -1,6 +1,5 @@
 A fazer
 
-- Tabela EsperaChamado (Diana colocou exemplo)
 - verificar permissao. se for admin abrir tela de espera
 - Login com twitter
 - Verificar campos (Previsao de erros)
@@ -11,6 +10,8 @@ Fazendo
 
 Feito
 
+- fazer o timertask para a tabela
+- Tabela EsperaChamado (Diana colocou exemplo)
 - Abrir novo Stage no ControllerLogin
 - Mudança banco pra mysql por causa do MD5 (Nao adiantou nada)
 - Login e telaCriarChamado no scene builder

@@ -105,14 +105,13 @@ public class Chamados {
     
     @Override
     public String toString() {
-        return "Chamado(" + "id=" + id + "\n"
-                + "  tipoChamado:" + tipoChamado + "\n"
-                + "  descricaoChamado:" + descricaoChamado + "\n"
-                + "  dataChamado:" + dataChamado + "\n"
+           return "  id=" + id + "\n"
+                + "  tipo:" + tipoChamado + "\n"
+                + "  descricao:" + descricaoChamado + "\n"
+                + "  data:" + dataChamado + "\n"
                 + "  recebido:" + recebido + "\n"
-                + "  local do chamado: " + localChamado.getNomeLocal() + "\n"
-                + "  usuario: " + usuario + "\n"
-                + ')';
+                + "  local: " + localChamado.getNomeLocal() + "\n"
+                + "  usuario: " + usuario + "\n";
     }
     
     public String toString2(){

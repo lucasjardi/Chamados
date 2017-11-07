@@ -5,13 +5,11 @@
  */
 package controller;
 
+import java.util.List;
+
 import model.Chamados;
 import persist.ChamadoPersist;
 
-/**
- *
- * @author DTI
- */
 public class ChamadoController {
     private final ChamadoPersist chamadoPersist;
 
@@ -23,5 +21,12 @@ public class ChamadoController {
         this.chamadoPersist.save(c);
     }
     
+    public List<Chamados> waitList(){
+    	return this.chamadoPersist.verificaNovosChamados();
+    }
+    
+    public void changeStatus(Chamados chamado) {
+    	this.chamadoPersist.update(chamado);
+    }
     
 }
