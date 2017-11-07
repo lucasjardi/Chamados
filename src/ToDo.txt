@@ -3,6 +3,7 @@ A fazer
 - verificar permissao. se for admin abrir tela de espera
 - Login com twitter
 - Verificar campos (Previsao de erros)
+- jogar exceptions em um dialog (http://code.makery.ch/blog/javafx-dialogs-official/)
 
 Fazendo
 
