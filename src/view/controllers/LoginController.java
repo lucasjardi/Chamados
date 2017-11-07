@@ -19,6 +19,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
+import config.Config;
 import fachada.Fachada;
 
 public class LoginController implements Initializable{
@@ -62,7 +63,7 @@ public class LoginController implements Initializable{
 	private void createStage(ActionEvent event) throws IOException{
 		Stage st = (Stage) (((Node)event.getSource()).getScene().getWindow());
 		
-		AnchorPane telaChamado = (AnchorPane)FXMLLoader.load(getClass().getResource("/view/user/createcall.fxml"));
+		AnchorPane telaChamado = (AnchorPane)FXMLLoader.load(getClass().getResource(Config.PATH_CREATE_CHAMADO));
         Scene scene = new Scene(telaChamado);
         st.setScene(scene);
         st.show();

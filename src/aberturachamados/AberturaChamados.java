@@ -1,5 +1,6 @@
 package aberturachamados;
 
+import config.Config;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,9 +11,9 @@ public class AberturaChamados extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/view/login/login.fxml"));
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(Config.PATH_LOGIN));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/view/assets/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource(Config.PATH_CSS).toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
