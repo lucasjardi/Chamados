@@ -9,6 +9,7 @@ import controller.UserController;
 import model.Chamados;
 import model.Local;
 import model.Permissoes;
+import model.SessionUser;
 import model.Usuario;
 import persist.ChamadoPersist;
 import persist.LocalPersist;
@@ -23,12 +24,14 @@ public class Fachada {
     private final ChamadoController chamadoControl;
     private final LocalController localControl;
     private final PermissionsController permissionsControl;
+    private final SessionUser currentSession;
     
     private Fachada(){
         this.usercontrol = new UserController(new UsuarioPersist());
         this.chamadoControl = new ChamadoController(new ChamadoPersist());
         this.localControl = new LocalController(new LocalPersist());
         this.permissionsControl = new PermissionsController(new PermissoesPersist());
+        this.currentSession = SessionUser.getInstancia();
     }
     
     public static Fachada getInstancia(){
@@ -36,6 +39,10 @@ public class Fachada {
             fachada = new Fachada();
         }
         return fachada;
+    }
+    
+    public Usuario getUser(String session){
+    	return this.currentSession.getUser(session);
     }
     
     public void saveUser(Usuario u) {
@@ -54,7 +61,7 @@ public class Fachada {
         this.permissionsControl.save(p);
     }
     
-    public Usuario login(String user, String pass) {
+    public boolean login(String user, String pass) {
     	return this.usercontrol.login(user, pass);
     }
     

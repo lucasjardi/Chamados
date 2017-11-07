@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 import exceptions.UserAlreadyExists;
 import exceptions.UserPasswordException;
+import model.SessionUser;
 import model.Usuario;
 import persist.UsuarioPersist;
 
@@ -45,17 +46,27 @@ public class UserController {
         return this.usuarioPersist.existsLogin();
     }
     
-    public Usuario login(String user, String pass) {
-    	String password= passToHash(pass);
+    public boolean login(String user, String pass) {
+    	String password= passToHash(pass); //String para MD5
+    	
+    	Usuario us = this.usuarioPersist.verificaLogin(user,password); //persist retorna usuario caso tudo certo, caso contrario usuario null
     	
     	if(password != null) {
-    		return this.usuarioPersist.verificaLogin(user,password);
+    		if(us != null){
+    			//Login correto, inicia sessao e retorna true
+    			
+    			SessionUser session = SessionUser.getInstancia();
+    			session.setSession("login", us);
+    			
+    			return true;
+    		}
     	}else {
     		new UserPasswordException();
-    		return null;
     	}
+		return false;
     }
     
+    //metodo helper para fazer o Hash da Senha
     private String passToHash(String pass) {
     	String hashed = null;
     	MessageDigest md = null;

@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import model.Chamados;
 import model.Local;
-import model.SessionUser;
 import model.Usuario;
 
 public class CallController implements Initializable{
@@ -31,15 +30,16 @@ public class CallController implements Initializable{
     private JFXComboBox<Local> cbLocal;
     
     private Fachada facade;
-    private Usuario user;
+    private Usuario currentUser;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		SessionUser session = SessionUser.getInstancia();
-		if(session.getUser("login") == null) {
+		facade = Fachada.getInstancia();
+		
+		if(facade.getUser("login") == null) {
 			Platform.exit();
 		}else {
-			this.user = session.getUser("login");
+			this.currentUser = facade.getUser("login");
 		}
 		
 		ObservableList<String> TiposdeChamado = 
@@ -69,7 +69,7 @@ public class CallController implements Initializable{
 		novo.setTipoChamado(tipoChamado);
 		novo.setDescricaoChamado(descricaoChamado);
 		novo.setLocal(localChamado);
-		novo.setUsuario(this.user);
+		novo.setUsuario(this.currentUser);
 		
 		
 		facade = Fachada.getInstancia();
