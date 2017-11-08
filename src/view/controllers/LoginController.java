@@ -44,7 +44,7 @@ public class LoginController implements Initializable{
 		boolean login = facade.login(txtUser.getText(),txtSenha.getText());
 		
 		if(login) {            
-            createStage(event);
+            createStage(event,facade.getAuthPath());
 		}else {
 			txtErro.setText("Login ou senha incorretos");
 			clearFields();
@@ -60,10 +60,10 @@ public class LoginController implements Initializable{
 	
 	
 	
-	private void createStage(ActionEvent event) throws IOException{
+	private void createStage(ActionEvent event, String PATH) throws IOException{
 		Stage st = (Stage) (((Node)event.getSource()).getScene().getWindow());
 		
-		AnchorPane telaChamado = (AnchorPane)FXMLLoader.load(getClass().getResource(Config.PATH_CREATE_CHAMADO));
+		AnchorPane telaChamado = (AnchorPane)FXMLLoader.load(getClass().getResource(PATH));
         Scene scene = new Scene(telaChamado);
         st.setScene(scene);
         st.show();

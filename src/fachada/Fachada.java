@@ -2,6 +2,7 @@ package fachada;
 
 import java.util.List;
 
+import config.Config;
 import controller.ChamadoController;
 import controller.LocalController;
 import controller.PermissionsController;
@@ -75,5 +76,23 @@ public class Fachada {
     
     public void changeStatus(Chamados chamado) {
     	this.chamadoControl.changeStatus(chamado);
+    }
+    
+    public String getAuthPath() {
+    	String PATH = Config.PATH_LOGIN;
+    	
+    	if(this.getUser("login") != null) {
+        	
+        	if(this.getUser("login").getPermissao().getId() == 1){
+        		PATH = Config.PATH_ADMIN;
+        	}
+        	else if(this.getUser("login").getPermissao().getId() == 2) {
+        		PATH = Config.PATH_CREATE_CHAMADO;
+        	}
+        	
+    	} 
+    	
+    	return PATH;
+    	
     }
 }
