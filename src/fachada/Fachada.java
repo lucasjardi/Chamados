@@ -27,6 +27,8 @@ public class Fachada {
     private final PermissionsController permissionsControl;
     private final SessionUser currentSession;
     
+    public static boolean hibernateStarted = false;
+    
     private Fachada(){
         this.usercontrol = new UserController(new UsuarioPersist());
         this.chamadoControl = new ChamadoController(new ChamadoPersist());
@@ -63,6 +65,7 @@ public class Fachada {
     }
     
     public boolean login(String user, String pass) {
+    	hibernateStarted = true;
     	return this.usercontrol.login(user, pass);
     }
     

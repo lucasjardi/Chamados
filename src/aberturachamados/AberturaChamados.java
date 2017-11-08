@@ -1,6 +1,7 @@
 package aberturachamados;
 
 import config.Config;
+import fachada.Fachada;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,9 +25,10 @@ public class AberturaChamados extends Application {
 	
 	@Override
 	public void stop() {
-		EntityManagerUtil.closeEntityManager();		
-		System.exit(0);
-		
+		if(Fachada.hibernateStarted) {
+			EntityManagerUtil.closeEntityManager();
+			System.exit(0);
+		}
 	}
 	
 	public static void main(String[] args) {

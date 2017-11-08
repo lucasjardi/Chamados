@@ -9,7 +9,7 @@ public class EntityManagerUtil {
 	
 	private static final String PERSISTENCE_UNIT = "mysql";
 	private static final EntityManagerFactory factory;
-
+	
 	public static final ThreadLocal<EntityManager> entitymanager = new ThreadLocal<EntityManager>();
 
 
