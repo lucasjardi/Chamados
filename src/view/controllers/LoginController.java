@@ -19,7 +19,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
-import config.Config;
 import fachada.Fachada;
 
 public class LoginController implements Initializable{
