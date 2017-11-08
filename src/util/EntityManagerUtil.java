@@ -36,7 +36,7 @@ public class EntityManagerUtil {
 		return em;
 	}
 
-	public  void closeEntityManager() {
+	public static void closeEntityManager() {
 		EntityManager em = entitymanager.get();
 		entitymanager.set(null);
 		if (em != null && em.isOpen()) {

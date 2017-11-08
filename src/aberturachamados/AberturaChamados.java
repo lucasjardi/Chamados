@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.EntityManagerUtil;
 
 public class AberturaChamados extends Application {
 	@Override
@@ -19,6 +20,13 @@ public class AberturaChamados extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void stop() {
+		EntityManagerUtil.closeEntityManager();		
+		System.exit(0);
+		
 	}
 	
 	public static void main(String[] args) {
