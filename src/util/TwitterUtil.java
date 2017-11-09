@@ -64,4 +64,16 @@ public class TwitterUtil {
         }
         return false;
     }
+    
+    private void inputPrompt() {
+    	TextInputDialog dialog = new TextInputDialog();
+    	dialog.setTitle("PIN input");
+    	dialog.setHeaderText("Put your pin bellow here: ");
+    	dialog.setContentText("PIN:");
+
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent()){
+    	    System.out.println("Your name: " + result.get());
+    	}
+    }
 }
