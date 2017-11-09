@@ -23,5 +23,9 @@ public class PermissionsController {
         this.permissionsPersist.save(p);
     }
     
+    public Permissoes getById(Integer id) {
+    	return this.permissionsPersist.findById(id);
+    }
+    
     
 }

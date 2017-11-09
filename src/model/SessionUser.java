@@ -5,7 +5,7 @@ public class SessionUser {
 	private static SessionUser session = null;
 	
 	private String sessionName;
-	private Usuario user;
+	private Usuario user = null;
 	
 	public static SessionUser getInstancia() {
 		if(session == null) {
@@ -22,7 +22,7 @@ public class SessionUser {
 	}
 	
 	public Usuario getUser(String sessionName) {
-		if(this.sessionName.equalsIgnoreCase(sessionName)) {
+		if(this.sessionName.equals(sessionName)) {
 			return this.user;
 		}
 		return null;

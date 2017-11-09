@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -19,15 +20,19 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
+import controller.TwitterController;
 import fachada.Fachada;
 
 public class LoginController implements Initializable{
 	
+	private Fachada facade;
 	@FXML private AnchorPane rootPane;
 	
 	@FXML private JFXTextField txtUser;
 	@FXML private JFXPasswordField txtSenha;
 	@FXML private JFXButton btnLogar;
+	
+	@FXML private Hyperlink linkTwitter;
 	
 	@FXML
     private Label txtErro;
@@ -39,7 +44,8 @@ public class LoginController implements Initializable{
 	}
 	
 	public void logar(ActionEvent event) throws IOException {
-		Fachada facade = Fachada.getInstancia();
+		facade = Fachada.getInstancia();
+		
 		boolean login = facade.login(txtUser.getText(),txtSenha.getText());
 		
 		if(login) {            
@@ -56,6 +62,14 @@ public class LoginController implements Initializable{
 	}
 	
 	
+	public void loginWithTwitter(ActionEvent event) throws IOException {
+		facade = Fachada.getInstancia();
+		boolean login = facade.loginWithTwitter();
+		
+		if(login) {
+			createStage(event,facade.getAuthPath());
+		}
+	}
 	
 	
 	

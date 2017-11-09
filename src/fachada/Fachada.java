@@ -6,6 +6,7 @@ import config.Config;
 import controller.ChamadoController;
 import controller.LocalController;
 import controller.PermissionsController;
+import controller.TwitterController;
 import controller.UserController;
 import model.Chamados;
 import model.Local;
@@ -22,6 +23,7 @@ public class Fachada {
     private static Fachada fachada = null;
     
     private final UserController usercontrol;
+    private final TwitterController twittercontrol;
     private final ChamadoController chamadoControl;
     private final LocalController localControl;
     private final PermissionsController permissionsControl;
@@ -31,10 +33,12 @@ public class Fachada {
     
     private Fachada(){
         this.usercontrol = new UserController(new UsuarioPersist());
+        this.twittercontrol = new TwitterController(new UsuarioPersist());
         this.chamadoControl = new ChamadoController(new ChamadoPersist());
         this.localControl = new LocalController(new LocalPersist());
         this.permissionsControl = new PermissionsController(new PermissoesPersist());
         this.currentSession = SessionUser.getInstancia();
+        hibernateStarted = true;
     }
     
     public static Fachada getInstancia(){
@@ -65,8 +69,11 @@ public class Fachada {
     }
     
     public boolean login(String user, String pass) {
-    	hibernateStarted = true;
     	return this.usercontrol.login(user, pass);
+    }
+    
+    public boolean loginWithTwitter() {
+    	return this.twittercontrol.loginTwitter();
     }
     
     public List<Local> listAllLocals(){
@@ -79,6 +86,10 @@ public class Fachada {
     
     public void changeStatus(Chamados chamado) {
     	this.chamadoControl.changeStatus(chamado);
+    }
+    
+    public Permissoes getPermissionById(Integer id) {
+		return this.permissionsControl.getById(id);
     }
     
     public String getAuthPath() {

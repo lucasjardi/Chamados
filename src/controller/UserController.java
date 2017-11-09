@@ -56,6 +56,7 @@ public class UserController {
     			//Login correto, inicia sessao e retorna true
     			
     			SessionUser session = SessionUser.getInstancia();
+    			
     			session.setSession("login", us);
     			
     			return true;
