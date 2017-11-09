@@ -1,6 +1,8 @@
 package util;
 
 import fachada.Fachada;
+
+import java.io.IOException;
 import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
@@ -32,7 +34,13 @@ public class TwitterUtil {
 
         // pega URL de autorizacao do twitter conforme o que a API alimenta
         String authURL = requestToken.getAuthorizationURL();
-        // na linha abaixo eu chamo uma função que acessa o browser
+        // na linha abaixo eu chamo uma funcao que acessa o browser
+        try {
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create(authURL));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //        facade.util.openURL(authURL);
 
         // na linha abaixo eu chamo uma funcao que mostra um dialog pro usuario inserir o PIN
