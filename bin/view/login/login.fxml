@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -24,5 +25,6 @@
          </children>
       </AnchorPane>
       <Label fx:id="txtErro" layoutX="200.0" layoutY="312.0" textFill="#ff3c39" />
+      <Hyperlink fx:id="linkTwitter" layoutX="212.0" layoutY="309.0" onAction="#loginWithTwitter" text="Logar com Twitter" />
    </children>
 </AnchorPane>
