@@ -14,6 +14,7 @@ import model.Permissoes;
 import model.SessionUser;
 import model.Usuario;
 import persist.ChamadoPersist;
+import persist.FilePersist;
 import persist.LocalPersist;
 import persist.PermissoesPersist;
 import persist.UsuarioPersist;
@@ -32,7 +33,7 @@ public class Fachada {
     public static boolean hibernateStarted = false;
     
     private Fachada(){
-        this.usercontrol = new UserController(new UsuarioPersist());
+        this.usercontrol = new UserController(new UsuarioPersist(), new FilePersist());
         this.twittercontrol = new TwitterController(new UsuarioPersist());
         this.chamadoControl = new ChamadoController(new ChamadoPersist());
         this.localControl = new LocalController(new LocalPersist());
@@ -90,6 +91,19 @@ public class Fachada {
     
     public Permissoes getPermissionById(Integer id) {
 		return this.permissionsControl.getById(id);
+    }
+    
+    
+    private boolean saveCredentials(Usuario user) {
+    	return this.usercontrol.saveCredentials(user);
+    }
+    
+    public boolean existsCredentials() {
+    	return this.usercontrol.existsCredentials();
+    }
+    
+    public Usuario getCredentials() {
+    	return this.usercontrol.getCredentials();
     }
     
     public String getAuthPath() {

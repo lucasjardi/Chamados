@@ -13,9 +13,6 @@ public class AberturaChamados extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		
-		loadFacade();	
-		
 		try {
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(Config.PATH_LOGIN));
 			Scene scene = new Scene(root);
@@ -23,14 +20,6 @@ public class AberturaChamados extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void loadFacade() {
-		try {
-			Fachada fachada = Fachada.getInstancia();
-		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

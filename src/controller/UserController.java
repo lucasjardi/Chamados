@@ -4,18 +4,22 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import config.Config;
 import exceptions.UserAlreadyExists;
 import exceptions.UserPasswordException;
 import model.SessionUser;
 import model.Usuario;
+import persist.FilePersist;
 import persist.UsuarioPersist;
 
 public class UserController {
     
     private final UsuarioPersist usuarioPersist;
+    private final FilePersist filePersist;
     
-    public UserController(UsuarioPersist up){
+    public UserController(UsuarioPersist up, FilePersist fp){
         this.usuarioPersist = up;
+        this.filePersist = fp;
     }
     
     public void save(Usuario u) {
@@ -67,12 +71,28 @@ public class UserController {
 		return false;
     }
     
+    // --------------------------- ARQUIVO ----------------------------------------
+    
+    public boolean saveCredentials(Usuario user) {
+    	return this.filePersist.saveUser(user);
+    }
+    
+    public boolean existsCredentials() {
+    	return this.filePersist.existsFile();
+    }
+    
+    public Usuario getCredentials() {
+    	return this.filePersist.readUser();
+    }
+    
+    // -------------------------- FIM ARQUIVO -------------------------------------
+    
     //metodo helper para fazer o Hash da Senha
     private String passToHash(String pass) {
     	String hashed = null;
     	MessageDigest md = null;
         try {
-            md = MessageDigest.getInstance("MD5");
+            md = MessageDigest.getInstance(Config.PASSWORD_ENCRYPTION);
             md.update(pass.getBytes(),0,pass.length());    
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
