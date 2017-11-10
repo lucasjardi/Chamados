@@ -17,10 +17,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
-import controller.TwitterController;
 import fachada.Fachada;
 
 public class LoginController implements Initializable{
@@ -31,6 +31,7 @@ public class LoginController implements Initializable{
 	@FXML private JFXTextField txtUser;
 	@FXML private JFXPasswordField txtSenha;
 	@FXML private JFXButton btnLogar;
+	@FXML private JFXCheckBox chkbxRemember;
 	
 	@FXML private Hyperlink linkTwitter;
 	
@@ -51,7 +52,7 @@ public class LoginController implements Initializable{
 		if(login) {            
             createStage(event,facade.getAuthPath());
 		}else {
-			txtErro.setText("Login ou senha incorretos");
+			txtErro.setText("Nick or Password Incorrect.");
 			clearFields();
 		}
 	}

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class Init extends Application{
 	
 	private static Fachada facade;
-	private static String path = Config.PATH_LOGIN;
+	private static String view = Config.PATH_INIT;
 	
 	public static void main(String[] args) {
 		loadFacade();
@@ -29,18 +29,18 @@ public class Init extends Application{
 	
 	private static void checkFile() {
 		if(facade.existsCredentials()) {
-			facade.login(facade.getCredentials().getNick(),facade.getCredentials().getSenha());
-		} else {
-//			path = Config.PATH_INIT;
-			
-			System.out.println("no file. first view.");
+			if(facade.getCredentials() != null) {
+				if(facade.login(facade.getCredentials().getNick(),facade.getCredentials().getSenha())) {
+					view = facade.getAuthPath();
+				}
+			}
 		}
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(path));
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(view));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource(Config.PATH_CSS).toExternalForm());
 			primaryStage.setScene(scene);
