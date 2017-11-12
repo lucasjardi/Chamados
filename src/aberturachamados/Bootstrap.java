@@ -7,8 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Usuario;
 
-public class Init extends Application{
+public class Bootstrap extends Application{
 	
 	private static Fachada facade;
 	private static String view = Config.PATH_INIT;
@@ -29,8 +30,11 @@ public class Init extends Application{
 	
 	private static void checkFile() {
 		if(facade.existsCredentials()) {
-			if(facade.getCredentials() != null) {
-				if(facade.login(facade.getCredentials().getNick(),facade.getCredentials().getSenha())) {
+			
+			Usuario user = facade.getCredentials();
+			
+			if(user != null) {
+				if(facade.login(user.getNick(),user.getSenha(),false,true)) {
 					view = facade.getAuthPath();
 				}
 			}

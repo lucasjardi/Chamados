@@ -13,22 +13,32 @@ import model.Usuario;
 public class FilePersist {
 		
 	public boolean saveUser(Usuario user) {
+		FileOutputStream f = null;
+		ObjectOutputStream o = null;
+		
 		try {
-			FileOutputStream f = new FileOutputStream(new File("credentials.file"));
-			ObjectOutputStream o = new ObjectOutputStream(f);
+			f = new FileOutputStream(new File("credentials.file"));
+			o = new ObjectOutputStream(f);
 
 			// Write objects to file
 			o.writeObject(user);
 
-			o.close();
-			f.close();
-			
 			return true;
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
 			System.out.println("Error initializing stream");
+			e.printStackTrace();
+		} finally {
+			if(f!= null && o!=null) {
+				try {
+					f.close();
+					o.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		return false;
@@ -37,21 +47,32 @@ public class FilePersist {
 	
 	public Usuario readUser() {
 		Usuario user = null;
+		FileInputStream fi = null;
+		ObjectInputStream oi = null;
 		
 		try {
-			FileInputStream fi = new FileInputStream(new File("credentials.file"));
-			ObjectInputStream oi = new ObjectInputStream(fi);
+			fi = new FileInputStream(new File("credentials.file"));
+			oi = new ObjectInputStream(fi);
 
 			user = (Usuario) oi.readObject();
 			
-			oi.close();
-			fi.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
 			System.out.println("Error initializing stream");
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			if(fi!=null && oi!=null) {
+				try {
+					fi.close();
+					oi.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		return user;

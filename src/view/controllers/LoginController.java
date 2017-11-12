@@ -47,19 +47,15 @@ public class LoginController implements Initializable{
 	public void logar(ActionEvent event) throws IOException {
 		facade = Fachada.getInstancia();
 		
-		boolean login = facade.login(txtUser.getText(),txtSenha.getText());
+		boolean login = facade.login(txtUser.getText(),txtSenha.getText(),
+									 chkbxRemember.isSelected(), false);
 		
-		if(login) {            
-            createStage(event,facade.getAuthPath());
+		if(login) {
+			createStage(event,facade.getAuthPath());
 		}else {
-			txtErro.setText("Nick or Password Incorrect.");
+			txtErro.setText("Invalid Nick/Password Combination.");
 			clearFields();
 		}
-	}
-
-	private void clearFields() {
-		txtUser.setText(null);
-		txtSenha.setText(null);
 	}
 	
 	
@@ -73,6 +69,14 @@ public class LoginController implements Initializable{
 	}
 	
 	
+	// --------- Metodos helpers ---------
+	
+	
+	
+	private void clearFields() {
+		txtUser.setText(null);
+		txtSenha.setText(null);
+	}
 	
 	private void createStage(ActionEvent event, String PATH) throws IOException{
 		Stage st = (Stage) (((Node)event.getSource()).getScene().getWindow());

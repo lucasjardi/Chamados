@@ -69,8 +69,8 @@ public class Fachada {
         this.permissionsControl.save(p);
     }
     
-    public boolean login(String user, String pass) {
-    	return this.usercontrol.login(user, pass);
+    public boolean login(String user, String pass,boolean remember, boolean isEncrypt) {
+    	return this.usercontrol.login(user, pass, remember,isEncrypt);
     }
     
     public boolean loginWithTwitter() {
@@ -94,9 +94,9 @@ public class Fachada {
     }
     
     
-    private boolean saveCredentials(Usuario user) {
-    	return this.usercontrol.saveCredentials(user);
-    }
+//    private boolean saveCredentials(Usuario user) {
+//    	return this.usercontrol.saveCredentials(user);
+//    }
     
     public boolean existsCredentials() {
     	return this.usercontrol.existsCredentials();

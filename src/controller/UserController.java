@@ -50,8 +50,13 @@ public class UserController {
         return this.usuarioPersist.existsLogin();
     }
     
-    public boolean login(String user, String pass) {
-    	String password= passToHash(pass); //String para MD5
+    public boolean login(String user, String pass, boolean remember, boolean isEncrypt) {
+    	String password = "";
+    	if(isEncrypt) {
+    		password = pass;
+    	}else { //se nao tiver criptografada, criptografa a senha
+    		password = passToHash(pass); //String para MD5
+    	}
     	
     	Usuario us = this.usuarioPersist.verificaLogin(user,password); //persist retorna usuario caso tudo certo, caso contrario usuario null
     	
@@ -59,6 +64,11 @@ public class UserController {
     		if(us != null){
     			//Login correto, inicia sessao e retorna true
     			
+    			if(remember) { //checkbox remember foi selecionada, salvar arquivo com user
+    				this.saveCredentials(us);
+    			}
+    			
+    			//inicia session e salva usuario na session
     			SessionUser session = SessionUser.getInstancia();
     			
     			session.setSession("login", us);

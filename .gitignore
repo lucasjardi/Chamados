@@ -1,6 +1,7 @@
 # Created by https://www.gitignore.io/api/java
 
 # customized #
+credentials.file
 .classpath
 .project
 /bin
