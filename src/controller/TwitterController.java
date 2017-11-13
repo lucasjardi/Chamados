@@ -4,6 +4,7 @@ package controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import config.Config;
 import exceptions.UserAlreadyExists;
 import fachada.Fachada;
 import javafx.scene.control.TextInputDialog;
@@ -29,7 +30,7 @@ public class TwitterController {
     public boolean loginTwitter(){
     	
         Twitter twitter = new TwitterFactory().getInstance();
-        twitter.setOAuthConsumer("TwCWINEY1p6gugsCQRjVFOJBz", "o6Eg1VI6f0usuGmbZh3lnIF5shaEa8hg5fGiogqUFny9SOeP3P");
+        twitter.setOAuthConsumer(Config.API_KEY,Config.API_SECRET);
 
         RequestToken requestToken = null;
         try {

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import config.Config;
 import model.Usuario;
 
 public class FilePersist {
@@ -17,7 +18,7 @@ public class FilePersist {
 		ObjectOutputStream o = null;
 		
 		try {
-			f = new FileOutputStream(new File("credentials.file"));
+			f = new FileOutputStream(new File(Config.CREDENTIALS_FILE));
 			o = new ObjectOutputStream(f);
 
 			// Write objects to file
@@ -51,7 +52,7 @@ public class FilePersist {
 		ObjectInputStream oi = null;
 		
 		try {
-			fi = new FileInputStream(new File("credentials.file"));
+			fi = new FileInputStream(new File(Config.CREDENTIALS_FILE));
 			oi = new ObjectInputStream(fi);
 
 			user = (Usuario) oi.readObject();
@@ -79,7 +80,7 @@ public class FilePersist {
 	}
 	
 	public boolean existsFile() {
-		return new File("credentials.file").exists();
+		return new File(Config.CREDENTIALS_FILE).exists();
 	}
 	
 }

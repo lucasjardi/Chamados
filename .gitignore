@@ -4,7 +4,6 @@
 credentials.file
 .classpath
 .project
-/bin
 
 ### Java ###
 # Compiled class file
