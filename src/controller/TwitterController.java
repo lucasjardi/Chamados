@@ -97,21 +97,21 @@ public class TwitterController {
     	return "";
     }
     
-    public void save(Usuario u) {
-    	
-		if(!this.existsLogin()){
-            this.usuarioPersist.save(u);
-        }else{
-            try {
-				throw new UserAlreadyExists("Usuario ja existente.");
-			} catch (UserAlreadyExists e) {
-				e.printStackTrace();
-			}
-        }
-
-    }
-    
-    public boolean existsLogin(){
-        return this.usuarioPersist.existsLogin();
-    }
+//    public void save(Usuario u) {
+//    	
+//		if(!this.existsLogin(u.getNick())){
+//            this.usuarioPersist.save(u);
+//        }else{
+//            try {
+//				throw new UserAlreadyExists("Usuario ja existente.");
+//			} catch (UserAlreadyExists e) {
+//				e.printStackTrace();
+//			}
+//        }
+//
+//    }
+//    
+//    public boolean existsLogin(String nick){
+//        return this.usuarioPersist.existsLogin(nick);
+//    }
 }

@@ -11,6 +11,7 @@ import model.SessionUser;
 import model.Usuario;
 import persist.FilePersist;
 import persist.UsuarioPersist;
+import util.FxmlUtil;
 
 public class UserController {
     
@@ -22,32 +23,26 @@ public class UserController {
         this.filePersist = fp;
     }
     
-    public void save(Usuario u) {
+    public void save(Usuario u) {    	
     	String password= passToHash(u.getSenha());
     	
     	if(password != null) {
     		u.setSenha(password);
 
-    		if(!this.existsLogin()){
+    		if(!this.existsLogin(u.getNick())){
 	            this.usuarioPersist.save(u);
 	        }else{
-	            try {
-					throw new UserAlreadyExists("Usuario ja existente.");
-				} catch (UserAlreadyExists e) {
-					e.printStackTrace();
-				}
+	        	Exception ex = new UserAlreadyExists("Nick already exists.");
+	        	FxmlUtil.throwExceptionDialog(ex);
 	        }
     	}else {
-    		try {
-				throw new UserPasswordException();
-			} catch (UserPasswordException e) {
-				e.printStackTrace();
-			}
+    		Exception ex = new UserAlreadyExists("Password exception.");
+        	FxmlUtil.throwExceptionDialog(ex);
     	}
     }
     
-    public boolean existsLogin(){
-        return this.usuarioPersist.existsLogin();
+    public boolean existsLogin(String nick){
+        return this.usuarioPersist.existsLogin(nick);
     }
     
     public boolean login(String user, String pass, boolean remember, boolean isEncrypt) {
@@ -111,4 +106,7 @@ public class UserController {
 		}
 		return hashed;
     }
+    
+    
+    
 }

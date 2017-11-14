@@ -1,6 +1,7 @@
 package persist;
 
 import javax.persistence.EntityManager;
+
 import model.Usuario;
 import util.EntityManagerUtil;
 
@@ -28,8 +29,21 @@ public class UsuarioPersist extends AbstractRepository<Usuario, Integer>{
         return u;
     }
     
-    public boolean existsLogin(){
-        return false;
+    public boolean existsLogin(String nick){
+        String n = "";
+               
+    	try {
+            em.getTransaction().begin();
+            
+            String q = "from Usuario where nick = ?1";
+            n = (String) em.createQuery(q).setParameter(1,nick).getSingleResult();
+            
+            em.getTransaction().commit();
+        } catch (Exception e){
+            em.getTransaction().rollback();
+        }
+    	
+    	return n.isEmpty();
     }
     
 }

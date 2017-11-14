@@ -8,6 +8,7 @@ public class Config {
 	
 	// Paths
 	
+	public static final String PATH_REGISTER = "/view/login/register.fxml";
 	public static final String PATH_INIT = "/view/login/init.fxml";
 	public static final String PATH_LOGIN = "/view/login/login.fxml";
 	public static final String PATH_CREATE_CHAMADO = "/view/user/createcall.fxml";

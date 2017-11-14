@@ -34,7 +34,7 @@ public class InitController implements Initializable {
 			createStage(event, Config.PATH_LOGIN);
 		}
 		if(event.getSource() == btnRegister) {
-			System.out.println("register");
+			createStage(event, Config.PATH_REGISTER);
 		}
 	}
 	
