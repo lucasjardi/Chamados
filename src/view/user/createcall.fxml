@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="343.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.CallController">
    <children>
       <VBox layoutX="8.0" prefHeight="28.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -20,17 +19,8 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#menuClose" text="Close" />
+                        <MenuItem fx:id="menuLogoutClose" mnemonicParsing="false" onAction="#menuClose" text="Logout &amp; Close" />
                   </items>
                 </Menu>
               </menus>
@@ -39,19 +29,19 @@
       </VBox>
       <AnchorPane layoutX="14.0" layoutY="25.0" prefHeight="66.0" prefWidth="600.0" styleClass="standardColor" stylesheets="@../assets/application.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
-            <Label layoutX="14.0" layoutY="39.0" text="Criar Chamado" textFill="WHITE">
+            <Label layoutX="14.0" layoutY="39.0" text="Request a call" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="14.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" styleClass="white" stylesheets="@../assets/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
+      <AnchorPane layoutX="50.0" layoutY="91.0" prefHeight="253.0" prefWidth="419.0" styleClass="white" stylesheets="@../assets/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="91.0">
          <children>
-            <JFXComboBox fx:id="cbTipo" labelFloat="true" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="500.0" promptText="Tipo de Chamado" />
-            <JFXTextArea fx:id="txtDesc" labelFloat="true" layoutX="14.0" layoutY="69.0" prefHeight="49.0" prefWidth="500.0" promptText="Descrição" />
-            <JFXComboBox fx:id="cbLocal" labelFloat="true" layoutX="14.0" layoutY="141.0" prefHeight="25.0" prefWidth="500.0" promptText="Local" />
-            <JFXButton fx:id="btnEnviar" buttonType="RAISED" layoutX="395.0" layoutY="190.0" onAction="#save" prefHeight="36.0" prefWidth="119.0" stylesheets="@../assets/application.css" text="Enviar" />
+            <JFXComboBox fx:id="cbTipo" labelFloat="true" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="391.0" promptText="Type" />
+            <JFXTextArea fx:id="txtDesc" labelFloat="true" layoutX="14.0" layoutY="69.0" prefHeight="49.0" prefWidth="391.0" promptText="Description" />
+            <JFXComboBox fx:id="cbLocal" labelFloat="true" layoutX="14.0" layoutY="141.0" prefHeight="25.0" prefWidth="391.0" promptText="Local" />
+            <JFXButton fx:id="btnEnviar" buttonType="RAISED" layoutX="286.0" layoutY="192.0" onAction="#save" prefHeight="36.0" prefWidth="119.0" stylesheets="@../assets/application.css" text="Send" />
          </children>
       </AnchorPane>
    </children>

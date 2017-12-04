@@ -7,7 +7,7 @@ package controller;
 
 import java.util.List;
 
-import model.Local;
+import model.Locals;
 import persist.LocalPersist;
 
 /**
@@ -21,11 +21,11 @@ public class LocalController {
         this.localPersist = localPersist;
     }
     
-    public void save(Local l){
+    public void save(Locals l){
         this.localPersist.save(l);
     }
     
-    public List<Local> listAllLocals(){
-    	return this.localPersist.listAllEntity(Local.class);
+    public List<Locals> listAllLocals(){
+    	return this.localPersist.listAllEntity(Locals.class);
     }
 }

@@ -1,48 +1,42 @@
 package controller;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import config.Config;
 import exceptions.UserAlreadyExists;
-import exceptions.UserPasswordException;
+import helper.Helpers;
 import model.SessionUser;
-import model.Usuario;
+import model.Users;
 import persist.FilePersist;
-import persist.UsuarioPersist;
-import util.FxmlUtil;
+import persist.UserPersist;
 
 public class UserController {
     
-    private final UsuarioPersist usuarioPersist;
+    private final UserPersist userPersist;
     private final FilePersist filePersist;
     
-    public UserController(UsuarioPersist up, FilePersist fp){
-        this.usuarioPersist = up;
+    public UserController(UserPersist up, FilePersist fp){
+        this.userPersist = up;
         this.filePersist = fp;
     }
     
-    public void save(Usuario u) {    	
-    	String password= passToHash(u.getSenha());
+    public boolean save(Users u) {    
+    	boolean success = false;
+    	String password= Helpers.passToHash(u.getSenha()); // faz o hash da senha
     	
     	if(password != null) {
-    		u.setSenha(password);
+    		u.setSenha(password); //sobrescreve a senha com ela agora criptografada
 
-    		if(!this.existsLogin(u.getNick())){
-	            this.usuarioPersist.save(u);
+    		if(!this.existsLogin(u.getNick())){ // se nao existir nick com o que o usuario digitou ele salva
+	            this.userPersist.save(u);
+	            success = true;
 	        }else{
-	        	Exception ex = new UserAlreadyExists("Nick already exists.");
-	        	FxmlUtil.throwExceptionDialog(ex);
+	        	new UserAlreadyExists("Nick already exists.");
 	        }
-    	}else {
-    		Exception ex = new UserAlreadyExists("Password exception.");
-        	FxmlUtil.throwExceptionDialog(ex);
     	}
+    	
+    	return success;
     }
     
     public boolean existsLogin(String nick){
-        return this.usuarioPersist.existsLogin(nick);
+        return this.userPersist.existsLogin(nick);
     }
     
     public boolean login(String user, String pass, boolean remember, boolean isEncrypt) {
@@ -50,10 +44,10 @@ public class UserController {
     	if(isEncrypt) {
     		password = pass;
     	}else { //se nao tiver criptografada, criptografa a senha
-    		password = passToHash(pass); //String para MD5
+    		password = Helpers.passToHash(pass); //String para MD5
     	}
     	
-    	Usuario us = this.usuarioPersist.verificaLogin(user,password); //persist retorna usuario caso tudo certo, caso contrario usuario null
+    	Users us = this.userPersist.verificaLogin(user,password); //persist retorna usuario caso tudo certo, caso contrario usuario null
     	
     	if(password != null) {
     		if(us != null){
@@ -70,15 +64,13 @@ public class UserController {
     			
     			return true;
     		}
-    	}else {
-    		new UserPasswordException();
     	}
 		return false;
     }
     
     // --------------------------- ARQUIVO ----------------------------------------
     
-    public boolean saveCredentials(Usuario user) {
+    public boolean saveCredentials(Users user) {
     	return this.filePersist.saveUser(user);
     }
     
@@ -86,26 +78,15 @@ public class UserController {
     	return this.filePersist.existsFile();
     }
     
-    public Usuario getCredentials() {
+    public Users getCredentials() {
     	return this.filePersist.readUser();
     }
     
-    // -------------------------- FIM ARQUIVO -------------------------------------
-    
-    //metodo helper para fazer o Hash da Senha
-    private String passToHash(String pass) {
-    	String hashed = null;
-    	MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance(Config.PASSWORD_ENCRYPTION);
-            md.update(pass.getBytes(),0,pass.length());    
-        } catch (NoSuchAlgorithmException ex) {
-            ex.printStackTrace();
-        } finally {
-			hashed = new BigInteger(1,md.digest()).toString(16);
-		}
-		return hashed;
+    public boolean deleteCredentials() {
+    	return this.filePersist.deleteFile();
     }
+    
+    // -------------------------- FIM ARQUIVO -------------------------------------
     
     
     

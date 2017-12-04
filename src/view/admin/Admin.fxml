@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.AdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="standardColor" stylesheets="@../assets/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.AdminController">
    <children>
       <VBox layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -16,26 +20,35 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#menuAction" text="Close" />
+                        <MenuItem fx:id="menuLogoutClose" mnemonicParsing="false" onAction="#menuAction" text="Logout &amp; Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Calls">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem fx:id="menuAllCalls" mnemonicParsing="false" onAction="#menuAction" text="List All Calls" />
+                        <MenuItem fx:id="menuCallsHold" mnemonicParsing="false" onAction="#menuAction" text="List Calls on hold" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
+                  <Menu mnemonicParsing="false" text="Config">
+                    <items>
+                      <MenuItem fx:id="menuStopCalls" mnemonicParsing="false" onAction="#menuAction" text="Stop receiving Calls" />
+                        <MenuItem fx:id="menuStartCalls" mnemonicParsing="false" onAction="#menuAction" text="Start receiving Calls" />
+                        <MenuItem fx:id="menuInterval" mnemonicParsing="false" onAction="#menuAction" text="Interval time" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Locals">
+                    <items>
+                      <MenuItem fx:id="menuInsertLocal" mnemonicParsing="false" onAction="#menuAction" text="Insert Local" />
+                    </items>
+                  </Menu>
               </menus>
             </MenuBar>
          </children>
       </VBox>
-      <VBox layoutX="8.0" layoutY="25.0" prefHeight="375.0" prefWidth="439.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane layoutY="45.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
-            <TableView fx:id="tableChamados" prefHeight="375.0" prefWidth="600.0">
+            <TableView fx:id="tableChamados" layoutY="37.0" prefHeight="338.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="columnId" prefWidth="75.0" text="id" />
                 <TableColumn fx:id="columnTipo" prefWidth="75.0" text="Type" />
@@ -45,7 +58,12 @@
                   <TableColumn fx:id="columnUser" prefWidth="115.0" text="User" />
               </columns>
             </TableView>
+            <Label fx:id="labelTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" prefHeight="37.0" prefWidth="600.0" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Open Sans Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
-      </VBox>
+      </AnchorPane>
    </children>
 </AnchorPane>

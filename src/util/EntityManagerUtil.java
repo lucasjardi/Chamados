@@ -4,10 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.swing.JOptionPane;
 
 public class EntityManagerUtil {
 	
-	private static final String PERSISTENCE_UNIT = "mysql";
+	private static final String PERSISTENCE_UNIT = "hsqldb";
 	private static final EntityManagerFactory factory;
 	
 	public static final ThreadLocal<EntityManager> entitymanager = new ThreadLocal<EntityManager>();
@@ -18,7 +19,7 @@ public class EntityManagerUtil {
 			factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
 		} catch (Throwable ex) {
-			System.err.println("Initial SessionFactory creation failed." + ex);
+			JOptionPane.showMessageDialog(null, "Exception in Hibernate Initialize!");
 			throw new ExceptionInInitializerError(ex);
 		}
 	}

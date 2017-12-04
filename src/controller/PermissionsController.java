@@ -5,25 +5,25 @@
  */
 package controller;
 
-import model.Permissoes;
-import persist.PermissoesPersist;
+import model.Permissions;
+import persist.PermissionsPersist;
 
 /**
  *
  * @author DTI
  */
 public class PermissionsController {
-    private final PermissoesPersist permissionsPersist;
+    private final PermissionsPersist permissionsPersist;
     
-    public PermissionsController(PermissoesPersist pp){
+    public PermissionsController(PermissionsPersist pp){
         this.permissionsPersist = pp;
     }
     
-    public void save(Permissoes p){
+    public void save(Permissions p){
         this.permissionsPersist.save(p);
     }
     
-    public Permissoes getById(Integer id) {
+    public Permissions getById(Integer id) {
     	return this.permissionsPersist.findById(id);
     }
     

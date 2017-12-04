@@ -6,26 +6,23 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
-import fachada.Fachada;
+import facade.Facade;
+import helper.Helpers;
 
 public class LoginController implements Initializable{
 	
-	private Fachada facade;
+	private Facade facade;
 	@FXML private AnchorPane rootPane;
 	
 	@FXML private JFXTextField txtUser;
@@ -45,45 +42,54 @@ public class LoginController implements Initializable{
 	}
 	
 	public void logar(ActionEvent event) throws IOException {
-		facade = Fachada.getInstancia();
 		
-		boolean login = facade.login(txtUser.getText(),txtSenha.getText(),
-									 chkbxRemember.isSelected(), false);
-		
-		if(login) {
-			createStage(event,facade.getAuthPath());
-		}else {
-			txtErro.setText("Invalid Nick/Password Combination.");
-			clearFields();
+		if (! emptyFields() ) {
+			
+			facade = Facade.getInstancia();
+			
+			// verificao pra caso usuario coloque @ no nick
+			String userNick = txtUser.getText();
+			if( txtUser.getText().substring(0, 1).equals("@") ) { // caso tenha @ na primeira posicao ele executa o bloco
+				userNick = txtUser.getText().substring(1,txtUser.getText().length()); // tira-se a primeira a posicao ( ignorado o @ )
+			}
+			
+			
+			// facade.login retorna um boolean
+			// O ultimo parametro enviado eh uma variavel auxiliar -> true se a senha ja estiver criptografada, false se nao estiver.
+			boolean login = facade.login(userNick,txtSenha.getText(),
+										 chkbxRemember.isSelected(), false);
+			
+			if( login ) {
+				Helpers.changeScene(getClass(),event, facade.getAuthPath());
+			}else {
+				txtErro.setText("Invalid Nick/Password Combination.");
+				clearFields();
+			}
+			
+		} else {
+			txtErro.setText("Empty Fields.");
 		}
 	}
 	
 	
 	public void loginWithTwitter(ActionEvent event) throws IOException {
-		facade = Fachada.getInstancia();
+		facade = Facade.getInstancia();
 		boolean login = facade.loginWithTwitter();
 		
 		if(login) {
-			createStage(event,facade.getAuthPath());
+			Helpers.changeScene(getClass(),event, facade.getAuthPath());
+		} else {
+			txtErro.setText("Twitter Login failed.");
 		}
 	}
 	
-	
-	// --------- Metodos helpers ---------
-	
-	
+	private boolean emptyFields() {
+		return txtUser.getText().isEmpty() || txtSenha.getText().isEmpty();
+	}
 	
 	private void clearFields() {
 		txtUser.setText(null);
 		txtSenha.setText(null);
 	}
-	
-	private void createStage(ActionEvent event, String PATH) throws IOException{
-		Stage st = (Stage) (((Node)event.getSource()).getScene().getWindow());
-		
-		AnchorPane telaChamado = (AnchorPane)FXMLLoader.load(getClass().getResource(PATH));
-        Scene scene = new Scene(telaChamado);
-        st.setScene(scene);
-        st.show();
-	}
+
 }

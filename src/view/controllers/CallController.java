@@ -7,16 +7,18 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 
-import fachada.Fachada;
+import facade.Facade;
+import helper.Helpers;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import model.Chamados;
-import model.Local;
-import model.Usuario;
+import javafx.scene.control.MenuItem;
+import model.Calls;
+import model.Locals;
+import model.Users;
 
 public class CallController implements Initializable{
 	
@@ -27,14 +29,21 @@ public class CallController implements Initializable{
     private JFXTextArea txtDesc;
 
     @FXML
-    private JFXComboBox<Local> cbLocal;
+    private JFXComboBox<Locals> cbLocal;
     
-    private Fachada facade;
-    private Usuario currentUser;
+    @FXML
+    private MenuItem menuClose;
+
+    @FXML
+    private MenuItem menuLogoutClose;
+    
+    private Facade facade;
+    private Users currentUser;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		facade = Fachada.getInstancia();
+		// verificacao de session
+		facade = Facade.getInstancia();
 		
 		if(facade.getUser("login") == null) {
 			Platform.exit();
@@ -42,45 +51,69 @@ public class CallController implements Initializable{
 			this.currentUser = facade.getUser("login");
 		}
 		
+		// popula a combobox de tipos
 		ObservableList<String> TiposdeChamado = 
 			    FXCollections.observableArrayList(
-			        "Defeito",
-			        "Necessidade de Suporte",
-			        "Outros"
+			        "Hardware problems",
+			        "Software problems",
+			        "Technical Support",
+			        "Network/Wifi",
+			        "Printer",
+			        "Other"
 			    );
 		cbTipo.setItems(TiposdeChamado);
 		
-		facade = Fachada.getInstancia();
-		List<Local> locais = facade.listAllLocals();
+		//popula a combobox de locais com os dados do banco
+		facade = Facade.getInstancia();
+		List<Locals> locais = facade.listAllLocals();
 		
-		ObservableList<Local> locals = FXCollections.observableArrayList(locais);
+		ObservableList<Locals> locals = FXCollections.observableArrayList(locais);
 		cbLocal.setItems(locals);
 		
 		
 	}
 	
+	public void menuClose(ActionEvent event) {
+		if (event.getSource() == menuClose) {
+			Platform.exit();
+		}
+		
+		if(event.getSource() == menuLogoutClose) {
+			facade = Facade.getInstancia();
+			facade.deleteCredentials();
+			
+			Platform.exit();
+		}
+	}
+	
 	public void save() {
 			
-		String tipoChamado = cbTipo.getSelectionModel().getSelectedItem();
-		String descricaoChamado = txtDesc.getText();
-		Local localChamado = cbLocal.getSelectionModel().getSelectedItem();
-		
-		Chamados novo = new Chamados();
-		novo.setTipoChamado(tipoChamado);
-		novo.setDescricaoChamado(descricaoChamado);
-		novo.setLocal(localChamado);
-		novo.setUsuario(this.currentUser);
-		
-		
-		facade = Fachada.getInstancia();
-		facade.saveChamado(novo);
-		
-		Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-        dialogoInfo.setTitle("Chamados");
-        dialogoInfo.setContentText("Chamado inserido com sucesso!");
-        dialogoInfo.showAndWait();
-        
-		clear();
+		if (! emptyFields() ) {
+			
+			String tipoChamado = cbTipo.getSelectionModel().getSelectedItem();
+			String descricaoChamado = txtDesc.getText();
+			Locals localChamado = cbLocal.getSelectionModel().getSelectedItem();
+			
+			Calls call = new Calls();
+			call.setTipoChamado(tipoChamado);
+			call.setDescricaoChamado(descricaoChamado);
+			call.setLocal(localChamado);
+			call.setUsuario(this.currentUser);
+			
+			
+			facade = Facade.getInstancia();
+			facade.saveChamado(call);
+	        
+	        Helpers.simpleDialog("Registered", "Call requested.", "");
+	        
+			clear();
+		}
+	}
+	
+	private boolean emptyFields() {
+		return txtDesc.getText().isEmpty() || 
+			   cbTipo.getSelectionModel().isEmpty() || 
+			   cbLocal.getSelectionModel().isEmpty();
 	}
 	
 	private void clear() {

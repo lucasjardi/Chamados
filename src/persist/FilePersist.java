@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import config.Config;
-import model.Usuario;
+import helper.Config;
+import helper.Helpers;
+import model.Users;
 
 public class FilePersist {
 		
-	public boolean saveUser(Usuario user) {
+	public boolean saveUser(Users user) {
 		FileOutputStream f = null;
 		ObjectOutputStream o = null;
 		
@@ -27,17 +28,19 @@ public class FilePersist {
 			return true;
 
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
+			Helpers.throwExceptionDialog(e, "File not found exception.");
+//			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-			e.printStackTrace();
+//			System.out.println("Error initializing stream");
+			Helpers.throwExceptionDialog(e, "Error initializing stream.");
 		} finally {
 			if(f!= null && o!=null) {
 				try {
 					f.close();
 					o.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Helpers.throwExceptionDialog(e, "IO Exception");
+//					e.printStackTrace();
 				}
 			}
 		}
@@ -46,8 +49,8 @@ public class FilePersist {
 		
 	}
 	
-	public Usuario readUser() {
-		Usuario user = null;
+	public Users readUser() {
+		Users user = null;
 		FileInputStream fi = null;
 		ObjectInputStream oi = null;
 		
@@ -55,23 +58,21 @@ public class FilePersist {
 			fi = new FileInputStream(new File(Config.CREDENTIALS_FILE));
 			oi = new ObjectInputStream(fi);
 
-			user = (Usuario) oi.readObject();
+			user = (Users) oi.readObject();
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
+//			Helpers.throwExceptionDialog(e, "File not found Exception.");
 		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-			e.printStackTrace();
+//			Helpers.throwExceptionDialog(e, "Error Initializing Stream.");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+//			Helpers.throwExceptionDialog(e, "Class not found exception.");
 		} finally {
 			if(fi!=null && oi!=null) {
 				try {
 					fi.close();
 					oi.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+//					Helpers.throwExceptionDialog(e, "IO Exception.");
 				}
 			}
 		}
@@ -83,4 +84,10 @@ public class FilePersist {
 		return new File(Config.CREDENTIALS_FILE).exists();
 	}
 	
+	public boolean deleteFile() {
+		if (this.existsFile()) {
+			return new File(Config.CREDENTIALS_FILE).delete();
+		}
+		return false;
+	}
 }

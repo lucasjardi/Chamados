@@ -7,67 +7,112 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fachada.Fachada;
+import facade.Facade;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Chamados;
-import javafx.fxml.Initializable;
+import model.Calls;
+import model.Locals;
+import helper.Helpers;
 
 public class AdminController implements Initializable{
 	
-	private Fachada facade;
+	private long interval = 30000;
+	private Facade facade;
 	private Timer timer = null;
+	
+	@FXML
+    private Label labelTitle;
+	
 	 @FXML
-    private TableView<Chamados> tableChamados;
+    private MenuItem menuClose;
 
     @FXML
-    private TableColumn<Chamados, Integer> columnId;
-
-    @FXML
-    private TableColumn<Chamados, String> columnTipo;
-
-    @FXML
-    private TableColumn<Chamados, String> columnDescricao;
-
-    @FXML
-    private TableColumn<Chamados, String> columnData;
+    private MenuItem menuLogoutClose;
     
     @FXML
-    private TableColumn<Chamados, String> columnLocal;
+    private MenuItem menuAllCalls;
+    
+    @FXML
+    private MenuItem menuCallsHold;
+	
+    @FXML
+    private MenuItem menuStopCalls;
 
     @FXML
-    private TableColumn<Chamados, String> columnUser;
-	
+    private MenuItem menuStartCalls;
+    
+    @FXML
+    private MenuItem menuInterval;
+    
+    @FXML
+    private MenuItem menuInsertLocal;
+    
+	@FXML
+    private TableView<Calls> tableChamados;
 
+    @FXML
+    private TableColumn<Calls, Integer> columnId;
+
+    @FXML
+    private TableColumn<Calls, String> columnTipo;
+
+    @FXML
+    private TableColumn<Calls, String> columnDescricao;
+
+    @FXML
+    private TableColumn<Calls, String> columnData;
+    
+    @FXML
+    private TableColumn<Calls, String> columnLocal;
+
+    @FXML
+    private TableColumn<Calls, String> columnUser;
+	
+    private boolean controle=false;
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// verificacao de session
+		facade = Facade.getInstancia();
 		
-		columnId.setCellValueFactory(new PropertyValueFactory<Chamados, Integer>("id"));
-		columnTipo.setCellValueFactory(new PropertyValueFactory<Chamados, String>("tipoChamado"));
-		columnDescricao.setCellValueFactory(new PropertyValueFactory<Chamados, String>("descricaoChamado"));
-		columnData.setCellValueFactory(new PropertyValueFactory<Chamados, String>("dataChamado"));
-		columnLocal.setCellValueFactory(new PropertyValueFactory<Chamados, String>("localChamado"));
-		columnUser.setCellValueFactory(new PropertyValueFactory<Chamados, String>("usuario"));
+		if(facade.getUser("login") == null) {
+			Platform.exit();
+		}
 		
-		loadTable();
+		
+		columnId.setCellValueFactory(new PropertyValueFactory<Calls, Integer>("id"));
+		columnTipo.setCellValueFactory(new PropertyValueFactory<Calls, String>("tipoChamado"));
+		columnDescricao.setCellValueFactory(new PropertyValueFactory<Calls, String>("descricaoChamado"));
+		columnData.setCellValueFactory(new PropertyValueFactory<Calls, String>("dataChamado"));
+		columnLocal.setCellValueFactory(new PropertyValueFactory<Calls, String>("localChamado"));
+		columnUser.setCellValueFactory(new PropertyValueFactory<Calls, String>("usuario"));
+		
+		menuCallsHold.setDisable(true);
+		labelTitle.setText("Calls on Hold");
+		menuStartCalls.setDisable(true);
+		loadTable(false);
 		waitChamados();
 		
 		//pegar double click da row
 		tableChamados.setRowFactory( tv -> {
-		    TableRow<Chamados> row = new TableRow<>();
+		    TableRow<Calls> row = new TableRow<>();
 		    row.setOnMouseClicked(event -> {
 		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-		        	Chamados rowData = row.getItem();
+		        	Calls rowData = row.getItem();
 		            loadDialog(rowData);
 		        }
 		    });
@@ -75,35 +120,138 @@ public class AdminController implements Initializable{
 		});
 	}
 	
-	public void loadTable() {
-		facade = Fachada.getInstancia();
-		List<Chamados> list = facade.listChamadosWaiting();
-	
-		ObservableList<Chamados> obsList = FXCollections.observableArrayList();
+	public void menuAction(ActionEvent event) {
+		if (event.getSource() == menuClose) {
+			Platform.exit();
+		}
 		
-		for (Chamados chamados : list) {
-			obsList.add(chamados);
+		if(event.getSource() == menuLogoutClose) {
+			facade = Facade.getInstancia();
+			facade.deleteCredentials();
+			
+			Platform.exit();
+		}
+		
+		if (event.getSource() == menuAllCalls) {
+			timer.cancel();
+			timer = null;
+			loadTable(true);
+			labelTitle.setText("All Calls");
+			menuAllCalls.setDisable(true);
+			menuCallsHold.setDisable(false);
+		}
+		
+		if (event.getSource() == menuCallsHold) {
+			loadTable(false);
+			waitChamados();
+			labelTitle.setText("Calls on Hold");
+			menuAllCalls.setDisable(false);
+			menuCallsHold.setDisable(true);
+		}
+		
+		if (event.getSource() == menuStopCalls) {
+			timer.cancel();
+			timer = null;
+			
+			menuStopCalls.setDisable(true);
+			menuStartCalls.setDisable(false);
+		}
+		
+		if (event.getSource() == menuStartCalls) {
+			menuStopCalls.setDisable(false);
+			menuStartCalls.setDisable(true);
+			loadTable(false);
+			waitChamados();
+		}
+		
+		if (event.getSource() == menuInsertLocal) {
+			String localName = Helpers.inputDialog("Create a local", "Type the name of the Local. (Example: Lab 1", "");
+			facade = Facade.getInstancia();
+			
+			Locals local = new Locals();
+			local.setNomeLocal(localName);
+			
+			facade.saveLocal(local);
+			
+			Helpers.simpleDialog("Success", "Registered with success.", "");
+		}
+		
+		if (event.getSource() == menuInterval) {
+			timer.cancel();
+			timer = null;
+			
+			boolean error = false;
+			
+			String time = Helpers.inputDialog("Interval Time",
+					"Current Interval : "+ (this.interval/60000.0) + " minutes\nType, in minutes, the interval of receiving calls:",
+					"Ps: The min value is 0.5 minutes and the max is 60 minutes.");
+			
+			if (!time.isEmpty() && isDouble(time)) {
+				double t = Double.parseDouble(time);
+				if(t >= 0.5 && t<= 60.0) {
+					long intervalInMiliseconds = (long) (t * 60000);
+					
+					this.interval = intervalInMiliseconds;
+				} else {
+					error = true;
+				}
+			} else {
+				error = true;
+			}
+			
+			if(error) Helpers.simpleDialog("Invalid", "You typed an invalid number. sorry.", "");
+			
+			loadTable(false);
+			waitChamados();	
+		}
+	}
+	
+	public void loadTable(boolean all) {
+		facade = Facade.getInstancia();
+		List<Calls> list = null;
+		// se false ele pega apenas chamados em espera, se true ele pega todos os chamados
+		if(all) {
+			list = facade.listAllChamados();
+			this.controle = true;
+		}else {
+			list = facade.listChamadosWaiting();
+			this.controle = false;
+		}
+	
+		ObservableList<Calls> obsList = FXCollections.observableArrayList();
+		
+		for (Calls calls : list) {
+			obsList.add(calls);
 		}
 		tableChamados.setItems(obsList);
 	}
 	
-	private void loadDialog(Chamados c) {
+	private void loadDialog(Calls c) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Chamado Dialog");
 		alert.setContentText(c.toString());
 
 		ButtonType buttonTypeOne = new ButtonType("Change Status", ButtonData.YES);
+		ButtonType buttonTypeDelete = new ButtonType("Delete", ButtonData.NO);
 		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeDelete, buttonTypeCancel);
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne){
 		    // ... chama facade e da update no Chamado alterando-o para recebido true
-			facade = Fachada.getInstancia();
-			c.setRecebido(true);
+			facade = Facade.getInstancia();
+			
+			if(c.isRecebido()) c.setRecebido(false);
+			else c.setRecebido(true);
 			
 			facade.changeStatus(c);
+		} else if (result.get() == buttonTypeDelete) {
+			facade = Facade.getInstancia();
+			
+			facade.deleteCall(c);
+			
+			loadTable(this.controle);
 		}
 	}
 	
@@ -114,21 +262,33 @@ public class AdminController implements Initializable{
                 public void run() {
                     try {
                         
-                    	List<Chamados> list = facade.listChamadosWaiting();
+                    	List<Calls> list = facade.listChamadosWaiting();
                     	
                     	if(list != null) {
-                    		loadTable();
+                    		loadTable(false);
                     	}
                     } catch (Exception e) {
-                        e.printStackTrace();
+                    	Helpers.throwExceptionDialog(e, "Waiting Calls Thread Exception.");
                     }
                 }
 
             };
-            timer.scheduleAtFixedRate(tarefa, 5000, 5000);
+            timer.scheduleAtFixedRate(tarefa, interval, interval);
         }
     }
 	
+	private boolean isDouble(String str)  
+	{  
+	  try  
+	  {  
+	    Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {
+	    return false;  
+	  }  
+	  return true;  
+	}
 	
 	
 	

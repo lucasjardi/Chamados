@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="600.0" stylesheets="@../assets/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.RegisterController">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="158.0" prefWidth="600.0" styleClass="standardColor" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutX="119.0" layoutY="79.0" prefHeight="370.0" prefWidth="363.0" styleClass="paneLogin">
+         <children>
+            <JFXTextField fx:id="txtName" layoutX="46.0" layoutY="76.0" prefHeight="25.0" prefWidth="272.0" promptText="Name" />
+            <JFXTextField fx:id="txtNick" layoutX="46.0" layoutY="127.0" prefHeight="25.0" prefWidth="272.0" promptText="Nick" />
+            <JFXPasswordField fx:id="txtPassword" layoutX="46.0" layoutY="178.0" prefHeight="25.0" prefWidth="272.0" promptText="Password" />
+            <JFXPasswordField fx:id="txtRepeatPassword" layoutX="46.0" layoutY="231.0" prefHeight="25.0" prefWidth="272.0" promptText="Repeat Password" />
+            <JFXButton fx:id="btnRegister" buttonType="RAISED" layoutX="233.0" layoutY="301.0" onAction="#register" prefHeight="30.0" prefWidth="85.0" text="Register" />
+            <ImageView fitHeight="108.0" fitWidth="135.0" layoutX="128.0" layoutY="-40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/user.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="errorLabel" layoutX="168.0" layoutY="275.0" textFill="RED" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

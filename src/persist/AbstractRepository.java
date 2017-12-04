@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 
@@ -28,7 +29,8 @@ public class AbstractRepository<T, ID extends Serializable> implements IPersistM
 			this.em.persist(entity);
 			this.em.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "saving error");
+//			e.printStackTrace();
 			this.em.getTransaction().rollback();
 		}
 	}
@@ -40,6 +42,7 @@ public class AbstractRepository<T, ID extends Serializable> implements IPersistM
 			this.em.merge(entity);
 			this.em.getTransaction().commit();
 		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "update error");
 			this.em.getTransaction().rollback();
 		}
 	}
@@ -51,7 +54,7 @@ public class AbstractRepository<T, ID extends Serializable> implements IPersistM
 			this.em.remove(entity);
 			this.em.getTransaction().commit();
 		} catch (Exception e){
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "delete error");
 			this.em.getTransaction().rollback();
 		}
 	}
@@ -62,6 +65,7 @@ public class AbstractRepository<T, ID extends Serializable> implements IPersistM
 		try {
                     fEntity = em.find((Class<T>) persistentClass, id);
 		} catch (NoResultException e) {
+			JOptionPane.showMessageDialog(null, "No result error");
 			return null;
 		} 	
 		return fEntity;
@@ -73,7 +77,8 @@ public class AbstractRepository<T, ID extends Serializable> implements IPersistM
 			Query query = em.createQuery("from " + entity.getName());
 			objects = query.getResultList();
 		} catch (HibernateException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "hibernate exception");
+//			e.printStackTrace();
 		} 
 		return objects;
 	}
@@ -86,7 +91,8 @@ public class AbstractRepository<T, ID extends Serializable> implements IPersistM
 					+ fieldName);
 			objects = query.getResultList();
 		} catch (HibernateException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "hibernate exception");
+//			e.printStackTrace();
 		} 
 		return objects;
 	}
