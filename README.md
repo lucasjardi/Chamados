@@ -6,9 +6,12 @@ install java 8<br>
 install mysql<br>
 
 <br>
-Colocar o .classpath e .project no projeto: https://drive.google.com/drive/folders/19pbs9CCl4IgQfZcmKWLi6Cp6oABlQneg?usp=sharing
+Colocar o .classpath e .project no projeto: 
+https://drive.google.com/drive/folders/19pbs9CCl4IgQfZcmKWLi6Cp6oABlQneg?usp=sharing
 
-startar mysql ou hsqldb
-Se em Mysql : criar database `aberturachamados`
-executar o PersistObjects.java dentro do package hibernatetest (Para inserção de permissoes e criaçao de user admin)
-Aplicação pronta para uso.
+Procedimentos para execução 
+
+- startar mysql ou hsqldb
+- Se em Mysql : criar database `aberturachamados`
+- executar o PersistObjects.java dentro do package hibernatetest (Para inserção de permissoes e criaçao de user admin)
+- Aplicação pronta para uso.
